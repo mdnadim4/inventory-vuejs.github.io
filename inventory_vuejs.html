@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Vue JS Practice</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+      body{
+        font-family: fantasy;
+      }
+    </style>
+  </head>
+  <body class="bg-success">
+    <div id="app" class="container mx-auto">
+      <div class="row">
+        <div class="mx-auto mt-5">
+          <h2 class="text-center mt-5 font-weight-bold text-white">Product List</h2>
+          <form @submit.prevent="addItem" class="mt-4">
+            <input type="text" class="form-control font-weight-bold" v-model="newItem" placeholder="Enter Product Name">
+          </form>
+          <hr>
+          <ul class="list-group font-weight-bold">
+            <li class="list-group-item" v-for="(item, index) in items">
+              <div class="row">
+                <div class="col-md-3 pt-1">
+                  <button class="btn btn-sm btn-danger mr-4" @click = "removeItem(index)">Delete</button>
+                </div>
+                <div class="col-md-3 pt-1">
+                    {{ item.name }}
+                </div>
+                <div class="col-md-6">
+                  <input type="number" v-model="item.price" class="form-control">
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="offset-md-3 col-md-3 pt-1">
+                  Total
+                </div>
+                <div class="col-md-6">
+                  <input v-model= "total" class="form-control" disabled>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          items: [
+            {name: 'Rice', price: 60.00},
+            {name: 'Vegietable', price: 200.00},
+            {name: 'Beef', price: 600.00}
+          ],
+          newItem: ''
+        },
+        computed: {
+          total() {
+            var total = 0
+            this.items.forEach(item => {
+              total += parseFloat(item.price)
+            })
+            return total
+          }
+        },
+        methods: {
+          addItem(){
+            this.items.push({
+              name: this.newItem,
+              price: 0.0
+            })
+          },
+          removeItem(index){
+            this.items.splice(index, 1)
+          }
+        }
+      })
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
